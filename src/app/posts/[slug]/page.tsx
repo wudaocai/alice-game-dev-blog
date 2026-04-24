@@ -1,27 +1,16 @@
-'use client'
-
-import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getAllPosts, getPostBySlug } from '@/lib/posts'
 
-export default function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const [slug, setSlug] = useState<string | null>(null)
+export function generateStaticParams() {
+  const posts = getAllPosts()
+  return posts.map((post) => ({
+    slug: post.slug,
+  }))
+}
 
-  useEffect(() => {
-    params.then(resolved => {
-      setSlug(resolved.slug)
-    })
-  }, [params])
-
-  if (!slug) {
-    return (
-      <div className="p-8 max-w-5xl mx-auto flex items-center justify-center min-h-screen">
-        <div className="text-[#64748b]">Loading...</div>
-      </div>
-    )
-  }
-
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const post = getPostBySlug(slug)
 
   if (!post) {
