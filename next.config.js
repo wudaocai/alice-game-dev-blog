@@ -6,7 +6,6 @@ const nextConfig = {
   },
   trailingSlash: true,
   basePath: '/alice-game-dev-blog',
-  assetPrefix: '/alice-game-dev-blog',
 }
 
 module.exports = nextConfig
